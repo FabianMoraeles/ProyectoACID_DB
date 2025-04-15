@@ -26,8 +26,8 @@ INSERT INTO reservas (evento_id, cliente_id) VALUES
 
 -- Reservas para segundo evento
 INSERT INTO reservas (evento_id, cliente_id) VALUES
-(2, 4), -- Carlos
-(2, 5); -- Fernando
+(2, 4),
+(2, 5); 
 
 -- Asignar asientos para primer evento
 INSERT INTO asientos_reserva (reserva_id, asiento_id) VALUES
