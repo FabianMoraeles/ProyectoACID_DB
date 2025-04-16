@@ -69,14 +69,3 @@ INSERT INTO asientos_reserva (reserva_id, asiento_id) VALUES
 
 -- Marcar asientos como no disponibles
 UPDATE asientos SET disponible = false WHERE id IN (1, 2, 3, 4, 5, 21, 22);
-
-select * from reservas;
-
-TRUNCATE TABLE 
-    asientos_reserva, 
-    reservas, 
-    asientos, 
-    eventos, 
-    tipo_eventos, 
-    clientes
-RESTART IDENTITY CASCADE;
