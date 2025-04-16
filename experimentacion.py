@@ -73,3 +73,40 @@ def reservar_asiento(cliente_id, nivel_aislamiento, numero_asiento):
         print(f"Error con cliente {cliente_id}: {e}")
         with lock:
             resultados["fallidas"] += 1
+
+def simular_hotspot(concurrentes, nivel_aislamiento, nombre_nivel):
+    global resultados
+    resultados = {"exitosas": 0, "fallidas": 0}
+    hilos = []
+    start = time.time()
+    max_asiento = concurrentes 
+
+    resetear_base(max_asiento)
+
+    for _ in range(concurrentes):
+        cliente_id = random.randint(1, 6)
+        numero_asiento = random.randint(1, max_asiento)
+        hilo = threading.Thread(target=reservar_asiento, args=(cliente_id, nivel_aislamiento, numero_asiento))
+        hilos.append(hilo)
+        hilo.start()
+
+    for h in hilos:
+        h.join()
+    end = time.time()
+
+    print(f"Nivel de aislamiento: {nombre_nivel}")
+    print(f"Usuarios: {concurrentes}")
+    print(f"Reservas exitosas: {resultados['exitosas']}")
+    print(f"Reservas fallidas: {resultados['fallidas']}")
+    print(f"Tiempo total: {(end - start) * 1000:.2f} ms \n")
+
+if __name__ == "__main__":
+    niveles = {
+        "READ COMMITTED": 1,
+        "REPEATABLE READ": 2,
+        "SERIALIZABLE": 3
+    }
+
+    for nombre, nivel in niveles.items():
+        for concurrentes in [5, 10, 20, 30]:
+            simular_hotspot(concurrentes=concurrentes, nivel_aislamiento=nivel, nombre_nivel=nombre)
